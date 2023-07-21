@@ -7,6 +7,8 @@ from dataclasses import dataclass
 import re
 from functools import cached_property
 
+from .validators import validate_grid
+
 WINNING_PATTERNS = (
     "???......",
     "...???...",
@@ -35,8 +37,7 @@ class Grid:
     cells: str = " " * 9
 
     def __post_init__(self) -> None:
-        if not re.match(r"^[\sX0]{9}$", self.cells):
-            raise ValueError("MUST CONTAIN 9 CELLS OF: X, O, OR SPACE")
+        validate_grid(self)
     
     @cached_property
     # count how many X's there are

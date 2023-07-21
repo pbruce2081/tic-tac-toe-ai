@@ -39,3 +39,11 @@ class Grid:
     # count how many empty cells there are
     def empty_count(self) -> int:
         return self.cells.count(" ")
+
+@dataclass(frozen=True)
+class Move:
+    play: Play
+    cell_index: int
+    before_state: "GameState"
+    after_state: "GameState"
+

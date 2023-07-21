@@ -1,5 +1,7 @@
 # tic_tac_toe/logic/models.py
 
+from __future__ import annotations
+
 import enum
 from dataclasses import dataclass
 import re
@@ -21,7 +23,7 @@ class Play(str, enum.Enum):
     NAUGHT = "O"
 
     @property
-    def other(self) -> "Play":
+    def other(self) -> Play:
         if self is Play.NAUGHT:
             return Play.CROSS
         else:
@@ -97,3 +99,16 @@ class GameState:
                 if re.match(pattern.replace("?", play), self.grid.cells):
                     return play
         return None
+    
+    @cached_property
+    def winning_cells(self) -> list[int]:
+        # iterate through all winning patterns
+        for pattern in WINNING_PATTERNS:
+            # iterate through all plays
+            for play in Play:
+                if re.match(pattern.replace("?", play), self.grid.cells):
+                    return[
+                        match.start()
+                        for match in re.finditer(r"\?", pattern)
+                    ]
+        return []

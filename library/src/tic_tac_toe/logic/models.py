@@ -47,3 +47,7 @@ class Move:
     before_state: "GameState"
     after_state: "GameState"
 
+@dataclass(frozen=True)
+class GameState:
+    grid: Grid
+    start_play: Play = Play("X")

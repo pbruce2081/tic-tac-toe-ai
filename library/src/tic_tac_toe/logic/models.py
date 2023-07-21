@@ -61,3 +61,8 @@ class GameState:
         else:
             # return O
             return self.start_play.other
+    
+    @cached_property
+    def game_started(self) -> bool:
+        # return whether the grid is empty or not (game started or not)
+        return self.grid.empty_count == 9

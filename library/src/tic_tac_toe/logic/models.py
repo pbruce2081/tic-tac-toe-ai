@@ -8,6 +8,7 @@ import re
 from functools import cached_property
 
 from .validators import validate_grid, validate_game_state
+from .exceptions import InvalidGameState
 
 WINNING_PATTERNS = (
     "???......",
@@ -116,3 +117,32 @@ class GameState:
                         for match in re.finditer(r"\?", pattern)
                     ]
         return []
+    
+    @cached_property
+    def poss_moves(self) -> list[Move]:
+        # create a list of moves
+        moves = []
+        # check that the game is not over
+        if not self.game_over:
+            # iterate through all matches in the grid
+            for match in re.finditer(r"\s", self.grid.cells):
+                # add the moves to the list
+                moves.append(self.move_maker(match.start()))
+        return moves
+    
+    def move_maker(self, index: int) -> Move:
+        if self.grid.cells[index] != " ":
+            raise InvalidGameState("CELL IS NOT EMPTY")
+        return Move(
+            play=self.curr_play,
+            cell_index=index,
+            before_state=self,
+            after_state=GameState(
+                Grid(
+                    self.grid.cells[:index]
+                    + self.curr_play
+                    + self.grid.cells[index + 1:]
+                ),
+                self.start_play
+            )
+        )

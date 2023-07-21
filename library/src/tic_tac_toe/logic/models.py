@@ -71,3 +71,8 @@ class GameState:
     def game_over(self) -> bool:
         # return whether there is a winner or a tie
         return self.winner is not None or self.tie
+    
+    @cached_property
+    def tie(self) -> bool:
+        # return whether the game ended in a tie
+        return self.winner is None and self.grid.empty_count == 0

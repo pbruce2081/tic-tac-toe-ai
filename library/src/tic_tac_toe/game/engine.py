@@ -23,3 +23,9 @@ class TicTacToe:
                 game_state = player.move_maker(game_state)
             except InvalidMove:
                 pass
+    
+    def get_curr_player(self, game_state: GameState) -> Player:
+        if game_state.curr_play is self.p1.play:
+            return self.p1
+        else:
+            return self.p2

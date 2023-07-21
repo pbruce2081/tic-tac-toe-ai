@@ -5,6 +5,17 @@ from dataclasses import dataclass
 import re
 from functools import cached_property
 
+WINNING_PATTERNS = (
+    "???......",
+    "...???...",
+    "......???",
+    "?..?..?..",
+    ".?..?..?.",
+    "..?..?..?",
+    "?...?...?",
+    "..?.?.?.."
+)
+
 class Play(str, enum.Enum):
     CROSS = "X"
     NAUGHT = "O"
@@ -76,3 +87,13 @@ class GameState:
     def tie(self) -> bool:
         # return whether the game ended in a tie
         return self.winner is None and self.grid.empty_count == 0
+    
+    @cached_property
+    def winner(self) -> Play or None:
+        # iterate through all winning patterns
+        for pattern in WINNING_PATTERNS:
+            # iterate through all plays
+            for play in Play:
+                if re.match(pattern.replace("?", play), self.grid.cells):
+                    return play
+        return None

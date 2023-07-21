@@ -8,7 +8,7 @@ import re
 from functools import cached_property
 
 from .validators import validate_grid, validate_game_state
-from .exceptions import InvalidGameState
+from .exceptions import InvalidMove
 
 WINNING_PATTERNS = (
     "???......",
@@ -132,7 +132,7 @@ class GameState:
     
     def move_maker(self, index: int) -> Move:
         if self.grid.cells[index] != " ":
-            raise InvalidGameState("CELL IS NOT EMPTY")
+            raise InvalidMove("CELL IS NOT EMPTY")
         return Move(
             play=self.curr_play,
             cell_index=index,

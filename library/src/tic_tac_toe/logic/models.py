@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import re
 from functools import cached_property
 
-from .validators import validate_grid
+from .validators import validate_grid, validate_game_state
 
 WINNING_PATTERNS = (
     "???......",
@@ -65,6 +65,9 @@ class Move:
 class GameState:
     grid: Grid
     start_play: Play = Play("X")
+
+    def __post_init__(self) -> None:
+        validate_game_state(self) 
 
     @cached_property
     def curr_play(self) -> Play:

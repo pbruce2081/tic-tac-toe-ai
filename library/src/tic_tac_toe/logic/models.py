@@ -51,3 +51,13 @@ class Move:
 class GameState:
     grid: Grid
     start_play: Play = Play("X")
+
+    @cached_property
+    def curr_play(self) -> Play:
+        # check if the number of X's is the same as the number of O's
+        if self.grid.x_count == self.grid.o_count:
+            # return X
+            return self.start_play
+        else:
+            # return O
+            return self.start_play.other

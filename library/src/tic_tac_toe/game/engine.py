@@ -15,6 +15,7 @@ class TicTacToe:
     p1: Player
     p2: Player
     renderer: Renderer
+    error_handler: ErrorHandler | None = None
 
     def __post_init__(self):
         validate_players(self.p1, self.p2)
@@ -30,8 +31,9 @@ class TicTacToe:
 
             try:
                 game_state = player.move_maker(game_state)
-            except InvalidMove:
-                pass
+            except InvalidMove as e:
+                if self.error_handler:
+                    self.error_handler(e)
     
     def get_curr_player(self, game_state: GameState) -> Player:
         if game_state.curr_play is self.p1.play:

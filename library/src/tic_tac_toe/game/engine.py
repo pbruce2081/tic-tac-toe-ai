@@ -8,7 +8,7 @@ from logic.exceptions import InvalidMove
 from logic.models import GameState, Grid, Play
 from logic.validators import validate_players
 
-
+ErrorHandler: TypeAlias = Callable[[Exception], None]
 
 @dataclass(frozen=True)
 class TicTacToe:

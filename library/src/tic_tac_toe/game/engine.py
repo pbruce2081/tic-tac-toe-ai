@@ -1,14 +1,23 @@
 # tic_tac_toe/game/engine.py
 
 from dataclasses import dataclass
+from typing import Callable, TypeAlias
+
+from tic_tac_toe.game.players import Player
 from logic.exceptions import InvalidMove
 from logic.models import GameState, Grid, Play
+from logic.validators import validate_players
+
+
 
 @dataclass(frozen=True)
 class TicTacToe:
     p1: Player
     p2: Player
     renderer: Renderer
+
+    def __post_init__(self):
+        validate_players(self.p1, self.p2)
 
     def play_game(self, start_play: Play = Play("X")) -> None:
         game_state = GameState(Grid(), start_play)

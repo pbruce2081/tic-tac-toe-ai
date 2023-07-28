@@ -2,6 +2,7 @@
 
 import abc
 import time
+import random
 
 from logic.exceptions import InvalidMove
 from logic.models import GameState, Play, Move
@@ -35,3 +36,10 @@ class ComputerPlayer(Player, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_comp_move(self, game_state: GameState) -> Move or None:
         """RETURN THE COMPUTER'S MOVE IN THE GIVEN GAME STATE"""
+
+class RandComputerPlayer(ComputerPlayer):
+    def get_rand_comp_move(self, game_state: GameState) -> Move or None:
+        try:
+            return random.choice(game_state.poss_moves)
+        except IndexError:
+            return None

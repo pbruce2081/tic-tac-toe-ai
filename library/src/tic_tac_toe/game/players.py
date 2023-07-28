@@ -27,3 +27,11 @@ class ComputerPlayer(Player, metaclass=abc.ABCMeta):
     def __init__(self, play: Play, delay_secs: float=0.25) -> None:
         super().__init__(play)
         self.delay_secs = delay_secs
+
+    def get_move(self, game_state: GameState) -> Move or None:
+        time.sleep(self.delay_secs)
+        return self.get_comp_move(game_state)
+    
+    @abc.abstractmethod
+    def get_comp_move(self, game_state: GameState) -> Move or None:
+        """RETURN THE COMPUTER'S MOVE IN THE GIVEN GAME STATE"""

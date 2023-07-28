@@ -13,8 +13,14 @@ class ConsoleRenderer(Renderer):
 def clear_screen() -> None:
     print("\033c", end="")
 
-def blink(text: str) -> str:
+def blinking_txt(text: str) -> str:
     return f"\033[5m{text}\033[0m"
+
+def print_blinking_txt(cells: Iterable[str], pos: Iterable[int]) -> None:
+    mutable_cells = list(cells)
+    for p in pos:
+        mutable_cells[p] = blinking_txt(mutable_cells[p])
+    print_grid(mutable_cells)
 
 def print_grid(cells: Iterable[str]) -> None:
     print(

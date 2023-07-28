@@ -9,6 +9,13 @@ from tic_tac_toe.logic.models import GameState
 class ConsoleRenderer(Renderer):
     def render_frontend(self, game_state: GameState) -> None:
         clear_screen()
+        if game_state.winner:
+            print_blinking_txt(game_state.grid.cells, game_state.winning_cells)
+            print(f"{game_state.winner} WINS \N{party popper}")
+        else:
+            print_grid(game_state.grid.cells)
+            if game_state.tie:
+                print("NO ONE WINS THIS TIME \N{neutral face}")
     
 def clear_screen() -> None:
     print("\033c", end="")

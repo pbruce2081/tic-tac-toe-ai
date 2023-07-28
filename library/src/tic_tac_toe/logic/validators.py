@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from tic_tac_toe.logic.models import GameState, Grid, Play
+    from tic_tac_toe.game.players import Player
 
 import re
 
@@ -46,3 +47,7 @@ def validate_winner(grid: Grid, start_play: Play, winner: Play | None) -> None:
         else:
             if grid.o_count != grid.x_count:
                 raise InvalidGameState("WRONG NUMBER OF O'S")
+
+def validate_players(p1: Player, p2: Player) -> None:
+    if p1.play is p2.play:
+        raise ValueError("PLAYERS MUST USE DIFFERENT PLAYS")

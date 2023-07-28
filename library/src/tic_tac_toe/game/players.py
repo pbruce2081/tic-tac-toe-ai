@@ -1,6 +1,7 @@
 # tic_tac_toe/game/players.py
 
 import abc
+import time
 
 from logic.exceptions import InvalidMove
 from logic.models import GameState, Play, Move
@@ -21,3 +22,8 @@ class Player(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_move(self, game_state: GameState) -> Move or None:
         """RETURN THE CURRENT PLAYER'S MOVE IN THE GIVEN GAME STATE"""
+    
+class ComputerPlayer(Player, metaclass=abc.ABCMeta):
+    def __init__(self, play: Play, delay_secs: float=0.25) -> None:
+        super().__init__(play)
+        self.delay_secs = delay_secs
